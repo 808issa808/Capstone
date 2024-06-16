@@ -33,7 +33,7 @@ public class PostController {
     }
 
     @GetMapping("/author/{id}")
-    public String findAllByAuthor_Id(Model model, @PathVariable Integer id) {
+    public String findAllByAuthorId(Model model, @PathVariable Integer id) {
         model.addAttribute("posts", postService.findAllByAuthor_Id(id));
         return "postList";
     }

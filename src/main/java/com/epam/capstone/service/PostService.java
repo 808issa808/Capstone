@@ -20,7 +20,7 @@ public class PostService {
 
     public List<Post> findAllByAuthor_Id(Integer id)
     {
-        return postRepository.findAllByAuthor_Id(id);
+        return postRepository.findAllByAuthorId(id);
     }
 
     public Post save(Post post)
