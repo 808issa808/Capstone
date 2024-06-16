@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post List Page</title>
+</head>
+<body>
+<h1>Post List Page</h1>
+<ul id="postList">
+  <!-- Thymeleaf example post list -->
+  <li th:each="post : ${posts}">
+    <a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.text}">Post</a>
+    <span th:text="${post.author.username}">Author</span>
+    <span th:text="${#temporals.format(post.createdAt, 'dd/MM/yyyy HH:mm')}">Created At</span>
+  </li>
+</ul>
+
+<script>
+  // Optional: JavaScript to enhance the user experience
+</script>
+</body>
+</html>

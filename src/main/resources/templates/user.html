@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1>User Profile</h1>
+</header>
+
+<section>
+    <h2>User Information</h2>
+    <ul>
+        <li><strong>Username:</strong> <span th:text="${user.username}">Username</span></li>
+        <li><strong>Email:</strong> <span th:text="${user.email}">Email</span></li>
+    </ul>
+</section>
+
+<section>
+    <h2>User Posts</h2>
+    <ul id="postList">
+        <li th:each="post : ${posts}">
+            <a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.text}">Post</a>
+            <span th:text="${post.author.username}">Author</span>
+            <span th:text="${#temporals.format(post.createdAt, 'dd/MM/yyyy HH:mm')}">Created At</span>
+        </li>
+    </ul>
+</section>
+
+<footer>
+    <p>© 2024 Your Website</p>
+</footer>
+</body>
+</html>
