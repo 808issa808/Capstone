@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.epam.capstone.model.Comment;
 import com.epam.capstone.repository.CommentRepository;
-import com.epam.capstone.service.CommentService;
+import com.epam.capstone.service.imp.CommentServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,7 +15,7 @@ import org.mockito.MockitoAnnotations;
 public class CommentServiceTest {
 
     @InjectMocks
-    private CommentService commentService;
+    private CommentServiceImpl commentServiceImpl;
 
     @Mock
     private CommentRepository commentRepository;
@@ -33,7 +33,7 @@ public class CommentServiceTest {
         when(commentRepository.save(comment)).thenReturn(comment);
 
         // when
-        Comment savedComment = commentService.save(comment);
+        Comment savedComment = commentServiceImpl.save(comment);
 
         // then
         verify(commentRepository, times(1)).save(comment);

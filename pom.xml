@@ -60,10 +60,14 @@
             <scope>test</scope>
         </dependency>
         <!-- Добавьте эту зависимость в ваш файл pom.xml -->
+<!--        <dependency>-->
+<!--            <groupId>org.thymeleaf.extras</groupId>-->
+<!--            <artifactId>thymeleaf-extras-java8time</artifactId>-->
+<!--        </dependency>-->
+
         <dependency>
-            <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-java8time</artifactId>
-            <version>3.1.0.RELEASE</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
     </dependencies>

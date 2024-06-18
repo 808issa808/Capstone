@@ -1,34 +1,17 @@
 package com.epam.capstone.service;
 
 import com.epam.capstone.model.User;
-import com.epam.capstone.repository.UserRepository;
 import com.epam.capstone.security.UserDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class UserService {
-    @Autowired
-    UserRepository userRepository;
+public interface UserService {
 
-    public List<UserDto> findAll()
-    {
-        return userRepository.findAllUserDto();
-    }
+//    List<UserDto> findAll();
 
-    public UserDto findById(Integer id)
-    {
-        return userRepository.findByIdUserDto(id);
-    }
+    UserDto findById(Integer id);
 
-    public void save(User user) {
-        userRepository.save(user);
-    }
+//    void save(User user);
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
+    User findByUsername(String username);
 }
