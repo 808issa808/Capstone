@@ -1,9 +1,13 @@
 package com.epam.capstone.controller;
 
 import com.epam.capstone.model.Post;
+import com.epam.capstone.security.CustomUserDetails;
 import com.epam.capstone.service.imp.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +41,15 @@ public class PostController {
         return "post";
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletePost(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails principal) {
+        boolean isDeleted = postServiceImpl.deletePost(id, principal);
+        if (isDeleted) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
 
     @PostMapping("/create")
     @ResponseBody

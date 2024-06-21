@@ -31,54 +31,48 @@ public class PostServiceTest {
 
     @Test
     void testFindAll() {
+        //given
         Post post1 = new Post();
         Post post2 = new Post();
 
+        //when
         when(postRepository.findAll()).thenReturn(Arrays.asList(post1, post2));
-
         List<Post> posts = postServiceImpl.findAll();
 
-        assertEquals(2, posts.size());
+        //then
         verify(postRepository, times(1)).findAll();
+        assertEquals(2, posts.size());
     }
 
-//    @Test
-//    void testSavePost() {
-//        Post post = new Post();
-//        post.setText("Test title");
-//
-//        when(postRepository.save(post)).thenReturn(post);
-//
-//        Post savedPost = postServiceImpl.save(post);
-//
-//        assertEquals("Test title", savedPost.getText());
-//        verify(postRepository, times(1)).save(post);
-//    }
 
     @Test
     void testFindAllByAuthor_Id() {
+        //given
         Post post1 = new Post();
         Post post2 = new Post();
 
+        //when
         when(postRepository.findAllByAuthorId(1)).thenReturn(Arrays.asList(post1, post2));
-
         List<Post> posts = postServiceImpl.findAllByAuthor_Id(1);
 
-        assertEquals(2, posts.size());
+        //then
         verify(postRepository, times(1)).findAllByAuthorId(1);
+        assertEquals(2, posts.size());
     }
 
     @Test
-    void testFindById() {
+    void shouldFindById() {
+        //given
         Post post = new Post();
         post.setText("Test title");
 
+        //when
         when(postRepository.findById(1L)).thenReturn(Optional.of(post));
-
         Optional<Post> foundPost = postServiceImpl.findById(1);
 
+        //then
+        verify(postRepository, times(1)).findById(1L);
         assertTrue(foundPost.isPresent());
         assertEquals("Test title", foundPost.get().getText());
-        verify(postRepository, times(1)).findById(1L);
     }
 }

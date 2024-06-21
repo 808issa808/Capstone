@@ -24,7 +24,9 @@ public class Post {
     @JoinColumn(name = "author_id")
     private User author;
     @OneToMany(mappedBy = "post",
-            fetch =FetchType.LAZY)
+            fetch = FetchType.LAZY,
+            orphanRemoval = true,
+            cascade = CascadeType.ALL)
     @ToString.Exclude // Исключаем поле из метода toString для предотвращения рекурсии
     private List<Comment> comments;
 }

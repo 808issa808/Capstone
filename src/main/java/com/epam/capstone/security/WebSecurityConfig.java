@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -24,6 +26,7 @@ import java.util.Set;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class WebSecurityConfig  {
 
     @Autowired
@@ -49,13 +52,15 @@ public class WebSecurityConfig  {
                 .csrf().disable()
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/**").permitAll()
-                                .anyRequest().authenticated()
-
+                                .requestMatchers("/login", "/register", "/user/check-username").permitAll()
+                                .requestMatchers("/user/own/**").authenticated() // Only authenticated users can access /user/own/**
+                                .requestMatchers("/**").authenticated() // Only authenticated users can access /user/own/**
+                                .anyRequest().permitAll()
                 )
                 .formLogin(formLogin ->
                         formLogin
                                 .loginPage("/login")
+                                .defaultSuccessUrl("/posts", true) // Переход на /posts после успешной аутентификации
                                 .permitAll()
                 )
                 .logout(logout ->
@@ -66,8 +71,5 @@ public class WebSecurityConfig  {
         return http.build();
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
-    }
+
 }

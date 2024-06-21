@@ -1,14 +1,13 @@
 package com.epam.capstone.controller;
 
-import com.epam.capstone.model.User;
-import com.epam.capstone.service.UserService;
+import com.epam.capstone.exception.UsernameAlreadyTakenException;
 import com.epam.capstone.service.imp.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AuthController {
@@ -40,8 +39,16 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestParam String username, @RequestParam String email, @RequestParam String password) {
-        userService.register(username,email,password);
-        return "redirect:/login";
+    public String registerUser(@RequestParam String username, @RequestParam String email, @RequestParam String password, Model model) {
+        try {
+            userService.register(username, email, password);
+            return "redirect:/login";
+        } catch (RuntimeException ex) {
+            model.addAttribute("error", ex.getMessage());
+            return "register";
+        }
     }
+
+
+
 }

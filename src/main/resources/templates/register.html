@@ -4,6 +4,48 @@
   <meta charset="UTF-8">
   <title>Register</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
+  <script>
+    async function checkUsernameAvailability() {
+      const username = document.getElementById('username').value;
+      const response = await fetch(`/user/check-username?username=${username}`);
+      const exists = await response.json();
+      const errorElement = document.getElementById('usernameError');
+
+      if (exists) {
+        errorElement.textContent = 'Username is already taken.';
+      } else {
+        errorElement.textContent = '';
+      }
+    }
+
+    function validatePassword() {
+      const password = document.getElementById('password').value;
+      const errorElement = document.getElementById('passwordError');
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+
+      if (!regex.test(password)) {
+        errorElement.textContent = 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.';
+        return false;
+      } else {
+        errorElement.textContent = '';
+        return true;
+      }
+    }
+
+    function validateForm(event) {
+      if (!validatePassword()) {
+        event.preventDefault();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.querySelector('form');
+      form.addEventListener('submit', validateForm);
+
+      const usernameInput = document.getElementById('username');
+      usernameInput.addEventListener('input', checkUsernameAvailability);
+    });
+  </script>
 </head>
 <body>
 <div>
@@ -12,6 +54,7 @@
     <div>
       <label for="username">Username:</label>
       <input type="text" id="username" name="username" required />
+      <div id="usernameError" style="color: red;"></div>
     </div>
     <div>
       <label for="email">Email:</label>
@@ -19,7 +62,8 @@
     </div>
     <div>
       <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required />
+      <input type="password" id="password" name="password" required oninput="validatePassword()" />
+      <div id="passwordError" style="color: red;"></div>
     </div>
     <div>
       <button type="submit">Register</button>
